@@ -1,108 +1,5 @@
-function ShareIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true">
-      <path
-        d="M11.333 5.333C12.438 5.333 13.333 4.438 13.333 3.333C13.333 2.229 12.438 1.333 11.333 1.333C10.229 1.333 9.333 2.229 9.333 3.333C9.333 4.438 10.229 5.333 11.333 5.333Z"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M4.667 10C5.771 10 6.667 9.105 6.667 8C6.667 6.895 5.771 6 4.667 6C3.562 6 2.667 6.895 2.667 8C2.667 9.105 3.562 10 4.667 10Z"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M11.333 14.667C12.438 14.667 13.333 13.771 13.333 12.667C13.333 11.562 12.438 10.667 11.333 10.667C10.229 10.667 9.333 11.562 9.333 12.667C9.333 13.771 10.229 14.667 11.333 14.667Z"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6.393 7.007L9.613 4.327"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M6.393 8.993L9.613 11.673"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function BookmarkIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true">
-      <path
-        d="M4.667 2.667H11.333V13.333L8 11.333L4.667 13.333V2.667Z"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function RefreshIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true">
-      <path
-        d="M13.333 7.333C13.17 6.159 12.628 5.07 11.791 4.232C10.954 3.394 9.866 2.851 8.692 2.686C7.518 2.522 6.322 2.744 5.286 3.318C4.25 3.892 3.43 4.787 2.947 5.869"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M2.667 3.333V5.869H5.203"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M2.667 8.667C2.83 9.841 3.372 10.93 4.209 11.768C5.046 12.606 6.134 13.149 7.308 13.314C8.482 13.478 9.678 13.256 10.714 12.682C11.75 12.108 12.57 11.213 13.053 10.131"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M13.333 12.667V10.131H10.797"
-        stroke="currentColor"
-        strokeWidth="1.33"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+import Link from "next/link";
+import { SparkleIcon, MicIcon, CompassIcon, ArrowRightIcon, ShareIcon, RefreshIcon } from "./icons";
 
 const destinations = [
   { name: "Bali", country: "Indonesia", tag: "Healing", seed: "bali-terraces" },
@@ -160,9 +57,9 @@ export default function PopularDestinations() {
       {/* Scrollable cards */}
       <div className="scrollbar-hide relative z-0 mt-12 flex gap-4 overflow-x-auto pb-12 pl-4 sm:gap-6 md:pl-16 lg:mt-20">
         {destinations.map((dest) => (
-          <a
+          <Link
             key={dest.name}
-            href="#"
+            href="/explore"
             className="group relative h-[360px] w-[82vw] max-w-[320px] flex-none overflow-hidden rounded-[24px] bg-white/0 shadow-[0px_20px_50px_-20px_rgba(20,30,40,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-4 focus-visible:ring-offset-[#FAF7F1] sm:h-[426.66px] sm:w-[320px] sm:rounded-[28px]">
             {/* Photo */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -187,19 +84,20 @@ export default function PopularDestinations() {
                 {dest.country}
               </p>
             </div>
-          </a>
+          </Link>
         ))}
         {/* Right padding spacer */}
         <div className="flex-none w-16" />
       </div>
       <div className="relative z-20 -mt-16 flex w-full justify-center px-4 pb-4 sm:-mt-13">
         <div className="inline-flex min-h-[54px] w-full max-w-2xl flex-wrap items-center justify-start gap-2 rounded-[28px] bg-white/90 p-1.5 shadow-2xl ring-1 ring-inset ring-black/[0.05] sm:h-[54px] sm:flex-nowrap sm:rounded-full">
-          <button
-            type="button"
-            className="inline-flex h-10 w-full flex-none items-center justify-center gap-1.5 rounded-full bg-[#1BA1AA] font-display text-[13.5px] font-semibold leading-[20.25px] text-white shadow-[0px_12px_24px_-10px_rgba(27,161,170,0.55)] transition-colors duration-150 hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:flex-1">
-            <BookmarkIcon className="h-4 w-4" />
-            <span>Simpan Trip</span>
-          </button>
+          <Link
+            href="/chat"
+            className="relative z-10 inline-flex h-10 w-full flex-none items-center justify-center gap-1.5 rounded-full bg-[#1BA1AA] font-display text-sm font-semibold text-white transition-colors hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 sm:flex-1"
+            style={{ boxShadow: "0px 14px 30px -10px rgba(27,161,170,0.55)" }}>
+            <span>Coba sendiri</span>
+            <ArrowRightIcon className="h-4 w-4" />
+          </Link>
           <button
             type="button"
             className="inline-flex h-10 w-[calc(50%-4px)] items-center justify-center gap-1.5 rounded-full bg-black/[0.05] font-display text-[13.5px] font-semibold leading-[20.25px] text-[#1F2A37] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-[102.33px]">
@@ -212,6 +110,35 @@ export default function PopularDestinations() {
             <RefreshIcon className="h-4 w-4 text-[#1BA1AA]" />
             <span>Minta AI Ubah</span>
           </button>
+        </div>
+      </div>
+      <div className="relative z-20 flex h-[76px] w-full justify-center px-4">
+        <div className="pointer-events-none absolute left-0 top-9 h-10 w-full bg-[linear-gradient(0deg,#FAF7F1_0%,rgba(250,247,241,0)_100%)]" />
+        <div className="relative inline-flex h-[62px] w-full max-w-[672px] items-center justify-start gap-2 rounded-full bg-white/90 p-2 shadow-[0px_30px_60px_-20px_rgba(20,30,40,0.35)] ring-1 ring-inset ring-black/[0.05]">
+          <button
+            type="button"
+            aria-label="Buka ide perjalanan"
+            className="relative h-10 w-10 shrink-0 rounded-full bg-black/[0.05] text-[#1BA1AA] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+            <SparkleIcon className="absolute left-3 top-3 h-4 w-4" />
+          </button>
+          <div className="flex h-[38.5px] min-w-0 flex-1 items-center overflow-hidden px-1 py-2">
+            <span className="truncate font-display text-[15px] font-medium text-[#9AA3AD]">
+              Healing 3 hari di Jogja budget 1 juta...
+            </span>
+          </div>
+          <button
+            type="button"
+            aria-label="Pakai suara"
+            className="relative hidden h-10 w-10 shrink-0 rounded-full bg-black/[0.05] text-[#1F2A37] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:block">
+            <MicIcon className="absolute left-3 top-3 h-4 w-4" />
+          </button>
+          <Link
+            href="/chat"
+            aria-label="Mulai rencana"
+            className="relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1BA1AA] text-white transition-colors hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80"
+            style={{ boxShadow: "0px 14px 30px -10px rgba(27,161,170,0.55)" }}>
+            <CompassIcon className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

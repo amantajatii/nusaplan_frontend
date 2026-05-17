@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import TealButton from "./TealButton";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -17,6 +19,7 @@ function SparkleIcon({ className }: { className?: string }) {
 }
 
 export default function FinalCTA() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
 
   return (
@@ -70,12 +73,11 @@ export default function FinalCTA() {
             placeholder="Healing 3 hari di Jogja budget 1 juta..."
             className="min-h-9 flex-1 break-words bg-transparent text-center font-display text-[15px] font-medium text-gray-800 outline-none placeholder:text-[#9AA3AD] sm:text-left"
           />
-          <button
-            type="button"
-            className="flex flex-shrink-0 items-center justify-center gap-1 rounded-full bg-teal-500 px-6 py-2.5 font-display text-sm font-semibold leading-[21px] text-white transition-colors duration-150 hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-          >
+          <TealButton
+            onClick={() => router.push("/chat")}
+            className="flex-shrink-0 gap-1 px-6 py-2.5 font-display text-sm font-semibold leading-[21px]">
             Plan
-          </button>
+          </TealButton>
         </div>
 
         {/* Hint */}

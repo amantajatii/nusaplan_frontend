@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import TealButton from "./TealButton";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -73,6 +75,7 @@ const MOODS = [
 ];
 
 export default function HeroSection() {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
 
@@ -150,12 +153,12 @@ export default function HeroSection() {
               placeholder="Healing 3 hari di Jogja budget 1 juta..."
               className="h-12 min-w-0 flex-1 overflow-hidden bg-transparent px-1 font-display text-sm font-normal leading-[21px] text-[#6B7280] outline-none placeholder:text-[#6B7280] sm:text-[15px] sm:leading-[22.5px]"
             />
-            <button
-              type="button"
-              className="inline-flex h-10 shrink-0 items-center justify-start gap-1 rounded-full bg-[#1BA1AA] px-4 font-display text-sm font-semibold leading-[21px] text-white shadow-[0px_12px_30px_-10px_rgba(27,161,170,0.65)] transition-colors duration-150 hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:h-11 sm:gap-1.5 sm:px-5">
+            <TealButton
+              onClick={() => router.push("/chat")}
+              className="h-10 shrink-0 justify-start gap-1 px-4 font-display text-sm font-semibold leading-[21px] sm:h-11 sm:gap-1.5 sm:px-5">
               <span>Plan</span>
               <ArrowRightIcon className="h-4 w-4" />
-            </button>
+            </TealButton>
           </div>
 
           <div className="flex min-h-[18.75px] w-full flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-center">
@@ -192,17 +195,22 @@ export default function HeroSection() {
           </div>
           <div className="flex w-full flex-wrap justify-center gap-2.5 overflow-hidden">
             {MOODS.map((mood) => (
-              <button
-                key={mood}
-                type="button"
-                onClick={() => handleMoodClick(mood)}
-                className={`rounded-full border px-3.5 py-2 break-words text-center font-display text-[13px] font-medium leading-[19.5px] text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:px-[17px] sm:py-[9px] sm:text-[13.5px] sm:leading-[20.25px] ${
-                  selectedMood === mood
-                    ? "border-[#1BA1AA] bg-[#1BA1AA] shadow-[0px_4px_16px_-6px_rgba(0,0,0,0.30)]"
-                    : "border-white/25 bg-white/12 shadow-[0px_4px_16px_-6px_rgba(0,0,0,0.30)] hover:border-white/40 hover:bg-white/18"
-                }`}>
-                {mood}
-              </button>
+              selectedMood === mood ? (
+                <TealButton
+                  key={mood}
+                  onClick={() => handleMoodClick(mood)}
+                  className="break-words border border-[#1BA1AA] px-3.5 py-2 text-center font-display text-[13px] font-medium leading-[19.5px] sm:px-[17px] sm:py-[9px] sm:text-[13.5px] sm:leading-[20.25px]">
+                  {mood}
+                </TealButton>
+              ) : (
+                <button
+                  key={mood}
+                  type="button"
+                  onClick={() => handleMoodClick(mood)}
+                  className="rounded-full border border-white/25 bg-white/12 px-3.5 py-2 break-words text-center font-display text-[13px] font-medium leading-[19.5px] text-white shadow-[0px_4px_16px_-6px_rgba(0,0,0,0.30)] transition-all duration-150 hover:border-white/40 hover:bg-white/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:px-[17px] sm:py-[9px] sm:text-[13.5px] sm:leading-[20.25px]">
+                  {mood}
+                </button>
+              )
             ))}
           </div>
         </div>

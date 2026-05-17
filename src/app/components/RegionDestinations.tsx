@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import TealButton from "./TealButton";
 
 const TABS = ["Jawa", "Bali", "Sulawesi", "NTT", "Papua"];
 
@@ -131,16 +132,22 @@ export default function RegionDestinations() {
         {/* Filter tabs */}
         <div className="scrollbar-hide mb-10 flex gap-3 overflow-x-auto pb-1">
           {TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`shrink-0 cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-colors ${
-                activeTab === tab
-                  ? "bg-teal-500 text-white"
-                  : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300"
-              }`}>
-              {tab}
-            </button>
+            activeTab === tab ? (
+              <TealButton
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className="shrink-0 cursor-pointer px-5 py-2 text-sm font-medium">
+                {tab}
+              </TealButton>
+            ) : (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className="shrink-0 cursor-pointer rounded-full border border-gray-200 bg-white px-5 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300">
+                {tab}
+              </button>
+            )
           ))}
         </div>
 

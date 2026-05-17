@@ -1,3 +1,5 @@
+import TealButton from "./TealButton";
+
 function SparkleIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -31,7 +33,7 @@ export default function AIPreview() {
               AI Nusaplan membaca ceritamu, memahami suasananya, lalu menyusun
               jadwal jam-per-jam — lengkap dengan budget dan kuliner.
             </p>
-            <button className="bg-teal-500 text-white rounded-full px-7 py-3 font-semibold flex items-center gap-2 w-fit hover:bg-teal-400 transition-colors duration-150">
+            <TealButton className="w-fit gap-2 px-7 py-3 font-semibold">
               Coba sendiri
               <svg
                 className="w-4 h-4"
@@ -45,7 +47,7 @@ export default function AIPreview() {
                   d="M13 7l5 5m0 0l-5 5m5-5H6"
                 />
               </svg>
-            </button>
+            </TealButton>
           </div>
 
           {/* RIGHT col */}
