@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import AuthProvider from "./providers/AuthProvider";
 
 const outfit = localFont({
   src: "./fonts/outfit-latin.woff2",
@@ -31,7 +32,9 @@ export default function RootLayout({
       lang="en"
       className={`${outfit.variable} ${urbanist.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
