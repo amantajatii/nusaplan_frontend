@@ -17,8 +17,8 @@ export default function TopBar() {
 
         {/* Brand */}
         <div className="ml-[11px] flex items-center gap-2">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1BA1AA]">
-            <Image src="/NusaPlan.svg" alt="NusaPlan" width={14} height={14} />
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1BA1AA] overflow-hidden">
+            <Image src="/logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
           </div>
           <span className="font-sans text-[16px] font-semibold leading-6 tracking-[-0.1px] text-[#1F2A37]">
             Nusaplan

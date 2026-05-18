@@ -1,17 +1,9 @@
-import type { Destination } from "../../_data/destinations";
+import type { Destination } from "@/lib/types";
 import { ClockIcon, TicketIcon, CompassIcon } from "../../../components/icons";
 
 type Props = { destination: Destination };
 
-function Tile({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
+function Tile({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div
       className="flex flex-col gap-1 rounded-[16px] bg-white p-3 ring-1 ring-inset ring-black/[0.05]"
@@ -26,9 +18,9 @@ function Tile({
 export default function InfoTiles({ destination }: Props) {
   return (
     <div className="grid grid-cols-3 gap-2">
-      <Tile icon={<ClockIcon className="h-4 w-4" />} label="Jam Buka" value={destination.jamBuka} />
-      <Tile icon={<TicketIcon className="h-4 w-4" />} label="Tiket" value={destination.tiket} />
-      <Tile icon={<CompassIcon className="h-4 w-4" />} label="Kategori" value={destination.category} />
+      <Tile icon={<ClockIcon className="h-4 w-4" />} label="Jam Buka" value={destination.opening_hours ?? "—"} />
+      <Tile icon={<TicketIcon className="h-4 w-4" />} label="Tiket" value={destination.price_range ?? "—"} />
+      <Tile icon={<CompassIcon className="h-4 w-4" />} label="Kategori" value={destination.category ?? "—"} />
     </div>
   );
 }

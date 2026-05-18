@@ -8,15 +8,23 @@ import TealButton from "../../components/TealButton";
 type Props = {
   open: boolean;
   onClose: () => void;
+  onApply?: (filters: Record<string, string>) => void;
 };
 
-const PULAU = ["Semua", "Jawa", "Bali", "Sulawesi", "NTT", "Papua"];
+const KOTA = ["Semua", "Bali", "Yogyakarta", "Jakarta", "Semarang"];
 const BUDGET = ["< Rp 100k", "Rp 100k–500k", "Rp 500k–1jt", "> Rp 1jt"];
 const DURASI = ["Setengah hari", "1 hari", "2–3 hari", "1 minggu+"];
-const MOOD = ["Healing", "Adventure", "Romantic", "Family Trip", "Backpacker", "Culinary", "Nature Escape"];
+const MOOD = [
+  { label: "Santai", value: "santai" },
+  { label: "Petualangan", value: "petualangan" },
+  { label: "Romantis", value: "romantis" },
+  { label: "Budaya", value: "budaya" },
+  { label: "Keluarga", value: "keluarga" },
+  { label: "Kuliner", value: "kuliner" },
+];
 const JENIS = ["Alam", "Budaya", "Pantai", "Gunung", "Heritage", "Kuliner"];
 
-export default function FilterDrawer({ open, onClose }: Props) {
+export default function FilterDrawer({ open, onClose, onApply }: Props) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -42,7 +50,7 @@ export default function FilterDrawer({ open, onClose }: Props) {
     };
   }, [open]);
 
-  const [pulau, setPulau] = useState("Semua");
+  const [kota, setKota] = useState("Semua");
   const [budgets, setBudgets] = useState<string[]>([]);
   const [durasi, setDurasi] = useState<string[]>([]);
   const [moods, setMoods] = useState<string[]>([]);
@@ -53,7 +61,7 @@ export default function FilterDrawer({ open, onClose }: Props) {
   }
 
   function reset() {
-    setPulau("Semua");
+    setKota("Semua");
     setBudgets([]);
     setDurasi([]);
     setMoods([]);
@@ -97,25 +105,25 @@ export default function FilterDrawer({ open, onClose }: Props) {
         {/* Filter groups — scrollable */}
         <div className="flex-1 overflow-y-auto px-6 pb-3">
           <div className="flex flex-col gap-6">
-            {/* PULAU */}
-            <FilterGroup label="PULAU">
+            {/* KOTA */}
+            <FilterGroup label="KOTA">
               <div className="flex flex-wrap gap-2">
-                {PULAU.map((p) => (
+                {KOTA.map((k) => (
                   <button
-                    key={p}
+                    key={k}
                     type="button"
-                    onClick={() => setPulau(p)}
+                    onClick={() => setKota(k)}
                     className={`inline-flex h-[37.5px] items-center rounded-full px-4 font-display text-[13px] font-semibold leading-[19.5px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 ${
-                      pulau === p
+                      kota === k
                         ? "bg-[#1F2A37] text-white"
-                        : "bg-white text-[#1F2A37] ring-1 ring-inset ring-black/[0.05]"
+                        : "bg-white text-[#1F2A37] ring-1 ring-inset ring-black/5"
                     }`}
                     style={
-                      pulau === p
+                      kota === k
                         ? { filter: "drop-shadow(0px 10px 11px rgba(31,42,55,0.5))" }
                         : { filter: "drop-shadow(0px 6px 8px rgba(20,30,40,0.2))" }
                     }>
-                    {p}
+                    {k}
                   </button>
                 ))}
               </div>
@@ -164,18 +172,18 @@ export default function FilterDrawer({ open, onClose }: Props) {
             {/* MOOD */}
             <FilterGroup label="MOOD">
               <div className="flex flex-wrap gap-2">
-                {MOOD.map((m) => (
+                {MOOD.map(({ label, value }) => (
                   <button
-                    key={m}
+                    key={value}
                     type="button"
-                    onClick={() => toggleSet(moods, setMoods, m)}
+                    onClick={() => toggleSet(moods, setMoods, value)}
                     className={`inline-flex h-[37.5px] items-center rounded-full px-4 font-display text-[13px] font-semibold leading-[19.5px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 ${
-                      moods.includes(m)
+                      moods.includes(value)
                         ? "bg-[#1BA1AA]/10 text-[#1BA1AA] ring-1 ring-inset ring-[#1BA1AA]/40"
-                        : "bg-white text-[#1F2A37] ring-1 ring-inset ring-black/[0.05]"
+                        : "bg-white text-[#1F2A37] ring-1 ring-inset ring-black/5"
                     }`}
                     style={{ filter: "drop-shadow(0px 6px 8px rgba(20,30,40,0.2))" }}>
-                    {m}
+                    {label}
                   </button>
                 ))}
               </div>
@@ -215,7 +223,13 @@ export default function FilterDrawer({ open, onClose }: Props) {
           <TealButton
             className="h-12 flex-1 font-display text-[14.5px] font-semibold"
             style={{ boxShadow: "0px 14px 14px rgba(27,161,170,0.55)", filter: "none" }}
-            onClick={onClose}>
+            onClick={() => {
+              const filters: Record<string, string> = {};
+              if (moods.length > 0) filters.mood = moods[0];
+              if (jenis.length > 0) filters.category = jenis[0];
+              if (kota !== "Semua") filters.city = kota;
+              onApply ? onApply(filters) : onClose();
+            }}>
             Tampilkan hasil
           </TealButton>
         </div>
