@@ -15,15 +15,31 @@ export default function NotifDrawer({ open, onClose }: Props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
     if (open) {
-      setMounted(true);
-      requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
-      setLoading(true);
-      listNotifications().then((data) => { setNotifs(data); setLoading(false); });
+      const mountTimer = window.setTimeout(() => {
+        if (cancelled) return;
+        setMounted(true);
+        setLoading(true);
+        requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+        listNotifications().then((data) => {
+          if (cancelled) return;
+          setNotifs(data);
+          setLoading(false);
+        });
+      }, 0);
+      return () => {
+        cancelled = true;
+        window.clearTimeout(mountTimer);
+      };
     } else {
-      setVisible(false);
-      const t = setTimeout(() => setMounted(false), 320);
-      return () => clearTimeout(t);
+      const hideTimer = window.setTimeout(() => setVisible(false), 0);
+      const unmountTimer = window.setTimeout(() => setMounted(false), 320);
+      return () => {
+        cancelled = true;
+        window.clearTimeout(hideTimer);
+        window.clearTimeout(unmountTimer);
+      };
     }
   }, [open]);
 

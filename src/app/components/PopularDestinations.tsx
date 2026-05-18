@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { SparkleIcon, MicIcon, CompassIcon, ArrowRightIcon, ShareIcon, RefreshIcon } from "./icons";
+import { SparkleIcon, CompassIcon, ArrowRightIcon, ShareIcon, RefreshIcon } from "./icons";
 import { shareLink } from "@/lib/share";
 import ScrollReveal from "./ScrollReveal";
 
