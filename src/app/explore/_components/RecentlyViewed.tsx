@@ -14,11 +14,11 @@ export default function RecentlyViewed() {
         <h2 className="font-sans text-[18px] font-medium leading-[27px] tracking-[-0.2px] text-[#1F2A37]">
           Terakhir dilihat
         </h2>
-        <a
-          href="#"
+        <Link
+          href={`/explore/${RECENT_SLUGS[0]}`}
           className="font-display text-[12px] font-medium leading-[18px] text-[#5B6470] transition-colors hover:text-[#1BA1AA]">
           Lanjutkan
-        </a>
+        </Link>
       </div>
 
       <div className="scrollbar-hide flex gap-3 overflow-x-auto">

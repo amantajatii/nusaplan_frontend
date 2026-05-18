@@ -1,11 +1,36 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { Destination } from "@/lib/types";
 import { ChevronLeftIcon, BookmarkIcon, ShareIcon, MapPinIcon } from "../../../components/icons";
+import { clientFetch } from "@/lib/api-client";
+import { shareLink } from "@/lib/share";
 
 type Props = { destination: Destination };
 
 export default function DetailHero({ destination }: Props) {
+  const [saved, setSaved] = useState(false);
+
+  async function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    try {
+      if (next) {
+        await clientFetch(`/api/user/favorites/${destination.id}`, { method: 'POST', auth: true });
+      } else {
+        await clientFetch(`/api/user/favorites/${destination.id}`, { method: 'DELETE', auth: true });
+      }
+    } catch {
+      setSaved(!next);
+    }
+  }
+
+  function handleShare() {
+    shareLink(window.location.href, destination.name);
+  }
+
   return (
     <div className="relative h-141.5 w-full overflow-hidden">
       {destination.cover_image_url ? (
@@ -33,13 +58,15 @@ export default function DetailHero({ destination }: Props) {
         <div className="flex gap-2">
           <button
             type="button"
-            aria-label="Simpan"
+            aria-label={saved ? "Hapus simpanan" : "Simpan"}
+            onClick={toggleSave}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/30 transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
-            <BookmarkIcon className="h-4 w-4 text-white" />
+            <BookmarkIcon className={`h-4 w-4 transition-colors ${saved ? "fill-[#FDBF3A] text-[#FDBF3A]" : "text-white"}`} />
           </button>
           <button
             type="button"
             aria-label="Bagikan"
+            onClick={handleShare}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 ring-1 ring-white/30 transition-colors hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
             <ShareIcon className="h-4 w-4 text-white" />
           </button>

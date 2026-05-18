@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { NEARBY_FOOD } from "../../_data/gallery";
 
 export default function NearbyFood() {
@@ -8,11 +9,11 @@ export default function NearbyFood() {
         <h2 className="font-sans text-[20px] font-medium leading-[30px] tracking-[-0.2px] text-[#1F2A37]">
           Kuliner di sekitar
         </h2>
-        <button
-          type="button"
+        <Link
+          href="/explore?category=kuliner"
           className="font-display text-[13px] font-semibold text-[#1BA1AA] hover:text-[#168D95] focus-visible:outline-none">
           Lihat semua
-        </button>
+        </Link>
       </div>
       <div className="scrollbar-hide -mx-5 flex gap-3 overflow-x-auto px-5 pb-1">
         {NEARBY_FOOD.map((food) => (

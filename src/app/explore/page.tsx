@@ -59,7 +59,7 @@ export default async function ExplorePage({ searchParams }: Props) {
       {/* Scrollable content */}
       <main className="mx-auto max-w-338.5 px-6 pb-16 pt-47">
         <div className="flex flex-col gap-6">
-          <SectionHeader />
+          <SectionHeader count={result.items.length} />
           <RecentlyViewed />
           <DestinationGrid destinations={result.items} />
         </div>

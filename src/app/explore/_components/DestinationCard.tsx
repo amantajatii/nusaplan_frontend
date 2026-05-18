@@ -2,8 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import React, { useState } from "react";
 import type { Destination } from "@/lib/types";
 import { HeartIcon, MapPinIcon, FlameIcon } from "../../components/icons";
+import { clientFetch } from "@/lib/api-client";
+
+const heartPopStyle: React.CSSProperties = { animation: "heart-pop 0.38s cubic-bezier(0.25, 1, 0.5, 1)" };
 
 type Props = {
   destination: Destination;
@@ -18,11 +22,29 @@ const HEIGHT_CLASS = {
 
 export default function DestinationCard({ destination, height = "md" }: Props) {
   const isTrending = destination.mood.length > 1;
+  const [favorited, setFavorited] = useState(false);
+  const [heartKey, setHeartKey] = useState(0);
+
+  async function toggleFavorite(e: React.MouseEvent) {
+    e.preventDefault();
+    const next = !favorited;
+    setFavorited(next);
+    setHeartKey((k) => k + 1);
+    try {
+      if (next) {
+        await clientFetch(`/api/user/favorites/${destination.id}`, { method: 'POST', auth: true });
+      } else {
+        await clientFetch(`/api/user/favorites/${destination.id}`, { method: 'DELETE', auth: true });
+      }
+    } catch {
+      setFavorited(!next); // revert on error
+    }
+  }
 
   return (
     <Link
       href={`/explore/${destination.id}`}
-      className={`relative block w-full overflow-hidden rounded-3xl bg-white ${HEIGHT_CLASS[height]} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70`}
+      className={`group relative block w-full overflow-hidden rounded-3xl bg-white ${HEIGHT_CLASS[height]} transition-transform duration-300 hover:scale-[1.018] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70`}
       style={{ boxShadow: "0px 18px 40px -22px rgba(20,30,40,0.35)" }}
     >
       {destination.cover_image_url ? (
@@ -30,7 +52,7 @@ export default function DestinationCard({ destination, height = "md" }: Props) {
           src={destination.cover_image_url}
           alt={destination.name}
           fill
-          className="object-cover"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
       ) : (
@@ -49,10 +71,14 @@ export default function DestinationCard({ destination, height = "md" }: Props) {
         )}
         <button
           type="button"
-          aria-label="Favorit"
-          className="flex h-7 w-7 items-center justify-center rounded-full bg-white/85 text-[#1F2A37] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 ml-auto"
-          onClick={(e) => e.preventDefault()}>
-          <HeartIcon className="h-3.5 w-3.5" />
+          aria-label={favorited ? "Hapus dari favorit" : "Tambah ke favorit"}
+          key={heartKey}
+          style={heartKey > 0 ? heartPopStyle : undefined}
+          className="ml-auto flex h-7 w-7 items-center justify-center rounded-full bg-white/85 text-[#1F2A37] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70"
+          onClick={toggleFavorite}>
+          <HeartIcon
+            className={`h-3.5 w-3.5 transition-colors ${favorited ? "fill-red-500 text-red-500" : ""}`}
+          />
         </button>
       </div>
 
