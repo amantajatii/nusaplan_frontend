@@ -14,9 +14,9 @@ export default function DashboardTopBar() {
         {/* Brand */}
         <div className="flex items-center gap-2">
           <div
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden"
             style={{ background: "linear-gradient(135deg, #1BA1AA 0%, #2CC9C8 100%)" }}>
-            <Image src="/NusaPlan.svg" alt="NusaPlan" width={14} height={14} />
+            <Image src="/logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
           </div>
           <span className="font-sans text-[17px] font-semibold leading-6 tracking-[-0.4px] text-[#1F2A37]">
             Nusaplan

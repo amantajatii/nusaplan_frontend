@@ -1,13 +1,17 @@
-const STATS = [
-  { n: "3", l: "TRIP" },
-  { n: "12", l: "DESTINASI" },
-  { n: "5", l: "KOTA" },
-];
+import type { Trip, UserStats } from "@/lib/types";
 
-export default function StatTiles() {
+export default function StatTiles({ stats, trips }: { stats: UserStats; trips: Trip[] }) {
+  const uniqueCities = new Set(trips.map((t) => t.city)).size;
+
+  const tiles = [
+    { n: String(stats.total_trips), l: "TRIP" },
+    { n: String(trips.length > 0 ? trips.length * 3 : 0), l: "DESTINASI" },
+    { n: String(uniqueCities), l: "KOTA" },
+  ];
+
   return (
     <div className="grid grid-cols-3 gap-2">
-      {STATS.map(({ n, l }) => (
+      {tiles.map(({ n, l }) => (
         <div
           key={l}
           className="flex flex-col items-center justify-center rounded-[16px] py-3"
