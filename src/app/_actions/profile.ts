@@ -11,7 +11,7 @@ export async function syncProfile(data?: { username?: string; avatar_url?: strin
   })
 }
 
-export async function updateProfile(data: { username?: string; avatar_url?: string }): Promise<UserProfile> {
+export async function updateProfile(data: { username?: string; avatar_url?: string; mood_preferences?: string[] }): Promise<UserProfile> {
   return serverFetch<UserProfile>('/api/user/profile', {
     method: 'PATCH',
     auth: true,
