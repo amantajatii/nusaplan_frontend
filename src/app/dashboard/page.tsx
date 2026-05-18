@@ -54,12 +54,14 @@ export default async function DashboardPage() {
             title="Perjalananmu"
             sub="Kenangan dan rencana yang sedang berjalan"
             action="Lihat semua"
+            href="/dashboard"
           />
           <TripCardsRow trips={trips} />
           <SectionHeader
             title="Destinasi yang disimpan"
             sub="Tempat-tempat yang menarik hatimu"
             action="Kelola"
+            href="/explore"
           />
           <SavedDestinationsRow />
           <WishlistCTAStrip />
