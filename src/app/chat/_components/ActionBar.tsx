@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import type { Itinerary } from "@/lib/types";
 import { saveTrip } from "@/app/_actions/trips";
+import { shareLink } from "@/lib/share";
 import TealButton from "../../components/TealButton";
 import { SaveIcon, ShareIcon, RefreshIcon } from "../../components/icons";
 
@@ -43,6 +44,7 @@ export default function ActionBar({
 
       <button
         type="button"
+        onClick={() => shareLink(window.location.href, itinerary.title)}
         className="inline-flex h-10 w-25.5 shrink-0 items-center justify-center gap-1.5 rounded-full bg-black/5 font-display text-[13.5px] font-semibold text-[#1F2A37] transition-colors hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2">
         <ShareIcon className="h-4 w-4" />
         <span>Bagikan</span>

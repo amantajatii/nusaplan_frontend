@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { ClarificationResult, Itinerary } from "@/lib/types";
 import { generateItinerary } from "@/app/_actions/planner";
+import { createSession, updateSession } from "@/app/_actions/sessions";
 import ChatHeader from "./_components/ChatHeader";
 import MessageBubble from "./_components/MessageBubble";
 import ItineraryCard from "./_components/ItineraryCard";
@@ -21,34 +23,71 @@ function isClarification(r: unknown): r is ClarificationResult {
 }
 
 export default function ChatPage() {
+  const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Msg[]>([
     { role: "ai", kind: "text", text: "Halo! Mau wisata ke mana? Ceritakan saja dalam satu kalimat 🌿" },
   ]);
   const [pending, setPending] = useState(false);
   const [rateLimited, setRateLimited] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const autoSentRef = useRef(false);
+  const sessionIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (autoSentRef.current) return;
+    const q = searchParams.get("q");
+    if (q?.trim()) {
+      autoSentRef.current = true;
+      handleSend(q.trim());
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function persistSession(msgs: Msg[], firstUserText: string) {
+    try {
+      const serialized = msgs.map((m) => {
+        if (m.role === "user") return { role: "user", kind: "text", text: m.text };
+        if (m.kind === "text") return { role: "ai", kind: "text", text: m.text };
+        if (m.kind === "itinerary") return { role: "ai", kind: "itinerary", itinerary: m.itinerary };
+        return { role: "ai", kind: "clarification", result: (m as { result: unknown }).result };
+      });
+      if (!sessionIdRef.current) {
+        const session = await createSession(firstUserText.slice(0, 80), serialized);
+        if (session?.id) sessionIdRef.current = session.id;
+      } else {
+        await updateSession(sessionIdRef.current, serialized);
+      }
+    } catch {
+      // best-effort — session failure must not break chat UX
+    }
+  }
+
   async function handleSend(text: string) {
-    setMessages((prev) => [...prev, { role: "user", kind: "text", text }]);
+    const userMsg: Msg = { role: "user", kind: "text", text };
+    setMessages((prev) => [...prev, userMsg]);
     setPending(true);
     setRateLimited(false);
     try {
       const result = await generateItinerary(text);
       if (isClarification(result)) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "ai", kind: "clarification", result },
-        ]);
+        const aiMsg: Msg = { role: "ai", kind: "clarification", result };
+        setMessages((prev) => {
+          const updated = [...prev, aiMsg];
+          void persistSession(updated, text);
+          return updated;
+        });
       } else {
-        setMessages((prev) => [
-          ...prev,
-          { role: "ai", kind: "text", text: "Aku rangkai itinerary santai berbasis ceritamu. Tap setiap hari untuk lihat detail 👇" },
-          { role: "ai", kind: "itinerary", itinerary: result as Itinerary },
-        ]);
+        const aiMsg1: Msg = { role: "ai", kind: "text", text: "Aku rangkai itinerary santai berbasis ceritamu. Tap setiap hari untuk lihat detail 👇" };
+        const aiMsg2: Msg = { role: "ai", kind: "itinerary", itinerary: result as Itinerary };
+        setMessages((prev) => {
+          const updated = [...prev, aiMsg1, aiMsg2];
+          void persistSession(updated, text);
+          return updated;
+        });
       }
     } catch (err: unknown) {
       const status = (err as { status?: number })?.status;

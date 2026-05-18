@@ -8,7 +8,7 @@ type MessageBubbleProps = {
 export default function MessageBubble({ variant, children }: MessageBubbleProps) {
   if (variant === "user") {
     return (
-      <div className="flex justify-end">
+      <div className="animate-fade-in-up flex justify-end">
         <div
           className="max-w-[70%] rounded-bl-[22px] rounded-br-[6px] rounded-tl-[22px] rounded-tr-[22px] bg-[#1BA1AA] px-4 py-[11px] font-display text-[15px] font-medium leading-[22.5px] text-white"
           style={{ boxShadow: "0px 14px 15px rgba(27,161,170,0.55)" }}>
@@ -19,7 +19,7 @@ export default function MessageBubble({ variant, children }: MessageBubbleProps)
   }
 
   return (
-    <div className="flex items-end gap-2">
+    <div className="animate-fade-in-up flex items-end gap-2">
       {/* AI avatar dot */}
       <div
         className="mb-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
