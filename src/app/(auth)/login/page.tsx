@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -35,7 +34,6 @@ function mapFirebaseError(code: string): string {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const [isPendingGoogle, startGoogleTransition] = useTransition()
   const [email, setEmail] = useState('')

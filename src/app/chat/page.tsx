@@ -81,9 +81,6 @@ export default function ChatPage() {
     });
     handleSend(parts.join(". "));
   }
-
-  const lastItinerary = [...messages].reverse().find((m) => m.role === "ai" && m.kind === "itinerary");
-
   return (
     <div className="relative min-h-screen bg-[#FAF7F1]">
       <div

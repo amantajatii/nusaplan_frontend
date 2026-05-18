@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { ItineraryDay } from "@/lib/types";
 
 export default function DayTabs({

@@ -228,7 +228,11 @@ export default function FilterDrawer({ open, onClose, onApply }: Props) {
               if (moods.length > 0) filters.mood = moods[0];
               if (jenis.length > 0) filters.category = jenis[0];
               if (kota !== "Semua") filters.city = kota;
-              onApply ? onApply(filters) : onClose();
+              if (onApply) {
+                onApply(filters);
+              } else {
+                onClose();
+              }
             }}>
             Tampilkan hasil
           </TealButton>
