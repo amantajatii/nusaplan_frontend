@@ -15,7 +15,7 @@ export default function TealButton({
   return (
     <button
       type={type}
-      className={`relative z-10 inline-flex items-center justify-center rounded-full bg-[#1BA1AA] text-white transition-colors duration-150 hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${className}`}
+      className={`relative z-10 inline-flex items-center justify-center rounded-full bg-[#1BA1AA] text-white transition-[colors,transform] duration-150 hover:bg-[#168D95] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${className}`}
       style={{
         boxShadow: tealButtonShadow,
         filter: tealButtonDropShadow,
