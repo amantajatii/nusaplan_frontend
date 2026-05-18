@@ -87,10 +87,12 @@ const features = [
   },
 ];
 
+import ScrollReveal from "./ScrollReveal";
+
 export default function Features() {
   return (
     <section className="bg-white py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <ScrollReveal className="mx-auto max-w-6xl px-4 sm:px-8">
         <div className="flex flex-col items-start gap-10 sm:gap-16">
           {/* LEFT */}
           <div className="flex-[0_0_50%]">
@@ -121,7 +123,7 @@ export default function Features() {
             ))}
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

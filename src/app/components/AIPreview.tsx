@@ -1,4 +1,6 @@
+import Link from "next/link";
 import TealButton from "./TealButton";
+import ScrollReveal from "./ScrollReveal";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -18,7 +20,7 @@ function SparkleIcon({ className }: { className?: string }) {
 export default function AIPreview() {
   return (
     <section className="bg-white py-20 sm:py-24 lg:py-28">
-      <div className="mx-auto max-w-6xl px-4 sm:px-8">
+      <ScrollReveal className="mx-auto max-w-6xl px-4 sm:px-8">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           {/* LEFT col */}
           <div className="flex w-full flex-col items-center text-center lg:flex-[0_0_45%] lg:items-start lg:text-left">
@@ -33,6 +35,7 @@ export default function AIPreview() {
               AI Nusaplan membaca ceritamu, memahami suasananya, lalu menyusun
               jadwal jam-per-jam — lengkap dengan budget dan kuliner.
             </p>
+            <Link href="/chat">
             <TealButton className="w-fit gap-2 px-7 py-3 font-semibold">
               Coba sendiri
               <svg
@@ -48,6 +51,7 @@ export default function AIPreview() {
                 />
               </svg>
             </TealButton>
+            </Link>
           </div>
 
           {/* RIGHT col */}
@@ -87,7 +91,7 @@ export default function AIPreview() {
             </div>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

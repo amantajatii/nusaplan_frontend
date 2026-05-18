@@ -38,11 +38,14 @@ function PlaneIcon({ className }: { className?: string }) {
   )
 }
 
+import ScrollReveal from "./ScrollReveal";
+
 export default function HowItWorks() {
   return (
     <section className="bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-8">
         {/* Label */}
+        <ScrollReveal>
         <p className="text-xs font-semibold tracking-[0.18em] text-teal-500 text-center mb-4 uppercase">
           How It Works
         </p>
@@ -122,6 +125,7 @@ export default function HowItWorks() {
             </div>
           </div>
         </div>
+        </ScrollReveal>
       </div>
     </section>
   )

@@ -22,7 +22,7 @@ const NAV_LINKS: { label: string; href: string }[] = [
   { label: "Explore", href: "/explore" },
   { label: "Mood Trips", href: "/chat" },
   { label: "AI Planner", href: "/chat" },
-  { label: "About", href: "#" },
+  { label: "About", href: "/#about" },
 ];
 
 export default function Navbar() {

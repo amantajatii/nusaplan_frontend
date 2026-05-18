@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import TealButton from "./TealButton";
 
+const PLACEHOLDER = "Healing 3 hari di Jogja budget 1 juta";
+
 function SparkleIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -84,7 +86,12 @@ export default function HeroSection() {
   }
 
   function handleSuggestion() {
-    setQuery("healing 3 hari di Jogja budget 1 juta");
+    setQuery(PLACEHOLDER);
+  }
+
+  function handlePlan() {
+    const q = query.trim();
+    router.push(q ? `/chat?q=${encodeURIComponent(q)}` : "/chat");
   }
 
   return (
@@ -106,7 +113,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1024px] flex-col items-center text-center">
         {/* Badge */}
-        <div className="mb-3 inline-flex min-h-8 max-w-full items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 ring-1 ring-inset ring-white/20 backdrop-blur-sm md:mb-[5px] md:h-8 md:py-0">
+        <div className="animate-fade-in-up mb-3 inline-flex min-h-8 max-w-full items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 ring-1 ring-inset ring-white/20 backdrop-blur-sm md:mb-[5px] md:h-8 md:py-0">
           <SparkleIcon className="h-3.5 w-3.5 text-[#FDBF3A]" />
           <span className="break-words font-display text-[11px] font-medium uppercase leading-[16.5px] tracking-[0.4px] text-white/90 sm:text-xs sm:leading-[18px]">
             AI TRAVEL PLANNER · INDONESIA
@@ -114,7 +121,7 @@ export default function HeroSection() {
         </div>
 
         {/* Heading */}
-        <h1 className="mb-5 w-full break-words text-center font-sans text-[40px] leading-[42px] sm:text-[52px] sm:leading-[54.6px] md:mb-6 md:text-[72px] md:leading-[75.6px]">
+        <h1 className="animate-fade-in-up mb-5 w-full break-words text-center font-sans text-[40px] leading-[42px] [animation-delay:100ms] sm:text-[52px] sm:leading-[54.6px] md:mb-6 md:text-[72px] md:leading-[75.6px]">
           <span className="block font-medium text-white">
             Ceritakan Perjalananmu.
           </span>
@@ -123,7 +130,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <div className="mb-10 flex min-h-[52.69px] w-full items-start justify-center sm:mb-14 md:mb-20">
+        <div className="animate-fade-in-up mb-10 flex min-h-[52.69px] w-full items-start justify-center [animation-delay:220ms] sm:mb-14 md:mb-20">
           <p className="w-full max-w-[1013.52px] break-words text-center font-display text-[15px] font-light leading-[23.25px] text-white/80 sm:text-[17px] sm:leading-[26.35px]">
             Cukup satu kalimat. AI akan menyusun itinerary terbaik untuk
             liburanmu di Indonesia — otomatis, personal, instan.
@@ -131,7 +138,7 @@ export default function HeroSection() {
         </div>
 
         {/* Search bar */}
-        <div className="mb-7 flex w-full flex-col items-center gap-3">
+        <div className="animate-fade-in-up mb-7 flex w-full flex-col items-center gap-3 [animation-delay:340ms]">
           <div
             className="flex min-h-[62px] w-full items-center gap-2 rounded-full bg-white/95 px-3 ring-1 ring-inset ring-white/40 focus-within:ring-2 focus-within:ring-[#FDBF3A]/80 sm:h-[70px] sm:px-[11px]"
             style={{
@@ -150,11 +157,19 @@ export default function HeroSection() {
               autoComplete="off"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Healing 3 hari di Jogja budget 1 juta..."
+              onKeyDown={(e) => {
+                if (e.key === "Tab" && !query) {
+                  e.preventDefault();
+                  setQuery(PLACEHOLDER);
+                } else if (e.key === "Enter") {
+                  handlePlan();
+                }
+              }}
+              placeholder={`${PLACEHOLDER}...`}
               className="h-12 min-w-0 flex-1 overflow-hidden bg-transparent px-1 font-display text-sm font-normal leading-[21px] text-[#6B7280] outline-none placeholder:text-[#6B7280] sm:text-[15px] sm:leading-[22.5px]"
             />
             <TealButton
-              onClick={() => router.push("/chat")}
+              onClick={handlePlan}
               className="h-10 shrink-0 justify-start gap-1 px-4 font-display text-sm font-semibold leading-[21px] sm:h-11 sm:gap-1.5 sm:px-5">
               <span>Plan</span>
               <ArrowRightIcon className="h-4 w-4" />
@@ -185,16 +200,15 @@ export default function HeroSection() {
         </div>
 
         {/* Mood picker */}
-        <div className="flex w-full flex-col items-center gap-3">
-          <div className="inline-flex h-[18px] w-full items-center justify-center gap-2">
-            <div className="h-px flex-1 bg-white/15" />
+        <div className="animate-fade-in-up flex w-full flex-col items-center gap-3 [animation-delay:460ms]">
+          <div className="inline-flex h-[18px] w-full items-center justify-start gap-2">
             <span className="shrink-0 break-words font-display text-[11px] font-medium uppercase leading-[16.5px] tracking-[1px] text-white/70 sm:text-xs sm:leading-[18px]">
               ATAU PILIH SUASANA
             </span>
             <div className="h-px flex-1 bg-white/15" />
           </div>
-          <div className="flex w-full flex-wrap justify-center gap-2.5 overflow-hidden">
-            {MOODS.map((mood) => (
+          <div className="flex w-full flex-wrap justify-start gap-2.5 overflow-hidden">
+            {MOODS.map((mood) =>
               selectedMood === mood ? (
                 <TealButton
                   key={mood}
@@ -210,12 +224,12 @@ export default function HeroSection() {
                   className="rounded-full border border-white/25 bg-white/12 px-3.5 py-2 break-words text-center font-display text-[13px] font-medium leading-[19.5px] text-white shadow-[0px_4px_16px_-6px_rgba(0,0,0,0.30)] transition-all duration-150 hover:border-white/40 hover:bg-white/18 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black sm:px-[17px] sm:py-[9px] sm:text-[13.5px] sm:leading-[20.25px]">
                   {mood}
                 </button>
-              )
-            ))}
+              ),
+            )}
           </div>
         </div>
 
-        <div className="mt-10 flex w-full items-center justify-center gap-3 sm:mt-14">
+        <div className="animate-fade-in mt-10 flex w-full items-center justify-center gap-3 [animation-delay:580ms] sm:mt-14">
           <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-[#FDBF3A]" />
           <span className="break-words font-display text-[12.5px] font-normal leading-[18.75px] text-white/70">
             17.508 pulau · ribuan kemungkinan

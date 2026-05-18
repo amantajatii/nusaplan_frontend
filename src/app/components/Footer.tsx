@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function SparkleIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -15,19 +17,39 @@ function SparkleIcon({ className }: { className?: string }) {
 const linkCols = [
   {
     heading: 'Produk',
-    links: ['AI Planner', 'Explore', 'Mood Trips', 'Saved Trips'],
+    links: [
+      { label: 'AI Planner', href: '/chat' },
+      { label: 'Explore', href: '/explore' },
+      { label: 'Mood Trips', href: '/chat' },
+      { label: 'Saved Trips', href: '/dashboard' },
+    ],
   },
   {
     heading: 'Tentang',
-    links: ['Cerita Kami', 'Karir', 'Press Kit', 'Kontak'],
+    links: [
+      { label: 'Cerita Kami', href: '/#about' },
+      { label: 'Karir', href: '/#about' },
+      { label: 'Press Kit', href: '/#about' },
+      { label: 'Kontak', href: '/#about' },
+    ],
   },
   {
     heading: 'Bantuan',
-    links: ['FAQ', 'Kebijakan Privasi', 'Syarat Layanan', 'Bantuan'],
+    links: [
+      { label: 'FAQ', href: '/#faq' },
+      { label: 'Kebijakan Privasi', href: '/#about' },
+      { label: 'Syarat Layanan', href: '/#about' },
+      { label: 'Bantuan', href: '/chat' },
+    ],
   },
 ]
 
-const socials = ['Instagram', 'TikTok', 'X', 'YouTube']
+const socials = [
+  { label: 'Instagram', href: 'https://instagram.com/nusaplan' },
+  { label: 'TikTok', href: 'https://tiktok.com/@nusaplan' },
+  { label: 'X', href: 'https://x.com/nusaplan' },
+  { label: 'YouTube', href: 'https://youtube.com/@nusaplan' },
+]
 
 export default function Footer() {
   return (
@@ -54,12 +76,12 @@ export default function Footer() {
               <p className="text-white font-semibold text-sm mb-5">{col.heading}</p>
               <div className="flex flex-col gap-3">
                 {col.links.map((link) => (
-                  <a
-                    key={link}
-                    href="#"
+                  <Link
+                    key={link.label}
+                    href={link.href}
                     className="text-gray-500 hover:text-gray-300 text-sm transition-colors">
-                    {link}
-                  </a>
+                    {link.label}
+                  </Link>
                 ))}
               </div>
             </div>
@@ -75,10 +97,12 @@ export default function Footer() {
             <div className="flex flex-wrap gap-2">
               {socials.map((s) => (
                 <a
-                  key={s}
-                  href="#"
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-full border border-white/10 px-4 py-1.5 text-gray-500 hover:text-gray-300 text-xs transition-colors">
-                  {s}
+                  {s.label}
                 </a>
               ))}
             </div>

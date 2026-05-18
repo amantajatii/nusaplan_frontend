@@ -1,5 +1,12 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SparkleIcon, MicIcon, CompassIcon, ArrowRightIcon, ShareIcon, RefreshIcon } from "./icons";
+import { shareLink } from "@/lib/share";
+import ScrollReveal from "./ScrollReveal";
+
+const PLACEHOLDER = "Healing 3 hari di Jogja budget 1 juta";
 
 const destinations = [
   { name: "Bali", country: "Indonesia", tag: "Healing", seed: "bali-terraces" },
@@ -36,10 +43,18 @@ const destinations = [
 ];
 
 export default function PopularDestinations() {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  function handlePlan() {
+    const q = query.trim();
+    router.push(q ? `/chat?q=${encodeURIComponent(q)}` : "/chat");
+  }
+
   return (
     <section className="overflow-hidden bg-[#FAF7F1] py-20 sm:py-24 lg:py-28">
       {/* Header */}
-      <div className="relative mx-auto mb-10 flex max-w-[1024px] flex-col gap-4 px-4 lg:mb-12 lg:h-[82.59px] lg:px-0">
+      <ScrollReveal className="relative mx-auto mb-10 flex max-w-5xl flex-col gap-4 px-4 lg:mb-12 lg:h-[82.59px] lg:px-0">
         <div className="lg:absolute lg:left-0 lg:top-1">
           <p className="break-words font-display text-[13px] font-semibold uppercase leading-[19.5px] tracking-[1.2px] text-[#1BA1AA]">
             POPULAR · TRENDING
@@ -52,7 +67,7 @@ export default function PopularDestinations() {
           Geser untuk melihat destinasi favorit yang dipilih traveler minggu
           ini.
         </p>
-      </div>
+      </ScrollReveal>
 
       {/* Scrollable cards */}
       <div className="scrollbar-hide relative z-0 mt-12 flex gap-4 overflow-x-auto pb-12 pl-4 sm:gap-6 md:pl-16 lg:mt-20">
@@ -100,12 +115,14 @@ export default function PopularDestinations() {
           </Link>
           <button
             type="button"
+            onClick={() => shareLink(window.location.href, 'NusaPlan — Destinasi Populer')}
             className="inline-flex h-10 w-[calc(50%-4px)] items-center justify-center gap-1.5 rounded-full bg-black/[0.05] font-display text-[13.5px] font-semibold leading-[20.25px] text-[#1F2A37] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-[102.33px]">
             <ShareIcon className="h-4 w-4" />
             <span>Bagikan</span>
           </button>
           <button
             type="button"
+            onClick={() => router.push('/chat')}
             className="inline-flex h-10 w-[calc(50%-4px)] items-center justify-center gap-1.5 rounded-full bg-black/[0.05] px-3 font-display text-[13px] font-semibold leading-[19.5px] text-[#1F2A37] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:w-42 sm:px-4 sm:text-[13.5px] sm:leading-[20.25px]">
             <RefreshIcon className="h-4 w-4 text-[#1BA1AA]" />
             <span>Minta AI Ubah</span>
@@ -117,28 +134,37 @@ export default function PopularDestinations() {
         <div className="relative inline-flex h-[62px] w-full max-w-[672px] items-center justify-start gap-2 rounded-full bg-white/90 p-2 shadow-[0px_30px_60px_-20px_rgba(20,30,40,0.35)] ring-1 ring-inset ring-black/[0.05]">
           <button
             type="button"
+            onClick={handlePlan}
             aria-label="Buka ide perjalanan"
             className="relative h-10 w-10 shrink-0 rounded-full bg-black/[0.05] text-[#1BA1AA] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
             <SparkleIcon className="absolute left-3 top-3 h-4 w-4" />
           </button>
-          <div className="flex h-[38.5px] min-w-0 flex-1 items-center overflow-hidden px-1 py-2">
-            <span className="truncate font-display text-[15px] font-medium text-[#9AA3AD]">
-              Healing 3 hari di Jogja budget 1 juta...
-            </span>
-          </div>
+          <label htmlFor="popular-query" className="sr-only">Rencana perjalanan</label>
+          <input
+            id="popular-query"
+            type="text"
+            autoComplete="off"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Tab" && !query) {
+                e.preventDefault();
+                setQuery(PLACEHOLDER);
+              } else if (e.key === "Enter") {
+                handlePlan();
+              }
+            }}
+            placeholder={`${PLACEHOLDER}...`}
+            className="flex h-[38.5px] min-w-0 flex-1 items-center overflow-hidden bg-transparent px-1 py-2 font-display text-[15px] font-medium text-[#1F2A37] placeholder:text-[#9AA3AD] outline-none"
+          />
           <button
             type="button"
-            aria-label="Pakai suara"
-            className="relative hidden h-10 w-10 shrink-0 rounded-full bg-black/[0.05] text-[#1F2A37] transition-colors duration-150 hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:block">
-            <MicIcon className="absolute left-3 top-3 h-4 w-4" />
-          </button>
-          <Link
-            href="/chat"
+            onClick={handlePlan}
             aria-label="Mulai rencana"
             className="relative z-10 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1BA1AA] text-white transition-colors hover:bg-[#168D95] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FDBF3A]/80"
             style={{ boxShadow: "0px 14px 30px -10px rgba(27,161,170,0.55)" }}>
             <CompassIcon className="h-4 w-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </section>

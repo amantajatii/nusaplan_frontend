@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import TealButton from "./TealButton";
+import ScrollReveal from "./ScrollReveal";
 
 function SparkleIcon({ className }: { className?: string }) {
   return (
@@ -38,7 +39,7 @@ export default function FinalCTA() {
       <div className="absolute inset-0 z-0 bg-black/45" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-8">
+      <ScrollReveal className="relative z-10 mx-auto max-w-3xl px-4 sm:px-8">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur-sm mb-8">
           <span className="break-words font-display text-[11.5px] font-semibold leading-[17.25px] tracking-[0.8px] text-white">
@@ -84,7 +85,7 @@ export default function FinalCTA() {
         <p className="mt-4 break-words font-display text-[12.5px] font-normal leading-[18.75px] text-white/65">
           Tanpa login. Tanpa form panjang.
         </p>
-      </div>
+      </ScrollReveal>
     </section>
   );
 }
