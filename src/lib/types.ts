@@ -62,7 +62,7 @@ export interface Itinerary {
 export interface ClarificationResult {
   needsClarification: true
   questions: string[]
-  partial: {
+  partial?: {
     mood?: string
     city?: string
     duration_days?: number

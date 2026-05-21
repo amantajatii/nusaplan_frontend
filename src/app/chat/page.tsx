@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { ClarificationResult, Itinerary } from "@/lib/types";
 import { generateItinerary } from "@/app/_actions/planner";
@@ -23,6 +23,14 @@ function isClarification(r: unknown): r is ClarificationResult {
 }
 
 export default function ChatPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF7F1]" />}>
+      <ChatContent />
+    </Suspense>
+  );
+}
+
+function ChatContent() {
   const searchParams = useSearchParams();
   const [messages, setMessages] = useState<Msg[]>([
     { role: "ai", kind: "text", text: "Halo! Mau wisata ke mana? Ceritakan saja dalam satu kalimat 🌿" },
@@ -32,8 +40,10 @@ export default function ChatPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const autoSentRef = useRef(false);
   const sessionIdRef = useRef<string | null>(null);
+  const messagesRef = useRef<Msg[]>(messages);
 
   useEffect(() => {
+    messagesRef.current = messages;
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -75,19 +85,13 @@ export default function ChatPage() {
       const result = await generateItinerary(text);
       if (isClarification(result)) {
         const aiMsg: Msg = { role: "ai", kind: "clarification", result };
-        setMessages((prev) => {
-          const updated = [...prev, aiMsg];
-          void persistSession(updated, text);
-          return updated;
-        });
+        setMessages((prev) => [...prev, aiMsg]);
+        void persistSession([...messagesRef.current, aiMsg], text);
       } else {
         const aiMsg1: Msg = { role: "ai", kind: "text", text: "Aku rangkai itinerary santai berbasis ceritamu. Tap setiap hari untuk lihat detail 👇" };
         const aiMsg2: Msg = { role: "ai", kind: "itinerary", itinerary: result as Itinerary };
-        setMessages((prev) => {
-          const updated = [...prev, aiMsg1, aiMsg2];
-          void persistSession(updated, text);
-          return updated;
-        });
+        setMessages((prev) => [...prev, aiMsg1, aiMsg2]);
+        void persistSession([...messagesRef.current, aiMsg1, aiMsg2], text);
       }
     } catch (err: unknown) {
       const status = (err as { status?: number })?.status;
@@ -108,13 +112,13 @@ export default function ChatPage() {
     }
   }
 
-  function handleClarificationAnswer(questions: string[], answers: string[], partial: ClarificationResult["partial"]) {
+  function handleClarificationAnswer(questions: string[], answers: string[], partial?: ClarificationResult["partial"]) {
     const parts: string[] = [];
-    if (partial.mood) parts.push(`Mood: ${partial.mood}`);
-    if (partial.city) parts.push(`Kota: ${partial.city}`);
-    if (partial.duration_days) parts.push(`Durasi: ${partial.duration_days} hari`);
-    if (partial.budget) parts.push(`Budget: Rp ${partial.budget.toLocaleString("id-ID")}`);
-    if (partial.jumlah_orang) parts.push(`Orang: ${partial.jumlah_orang}`);
+    if (partial?.mood) parts.push(`Mood: ${partial.mood}`);
+    if (partial?.city) parts.push(`Kota: ${partial.city}`);
+    if (partial?.duration_days) parts.push(`Durasi: ${partial.duration_days} hari`);
+    if (partial?.budget) parts.push(`Budget: Rp ${partial.budget.toLocaleString("id-ID")}`);
+    if (partial?.jumlah_orang) parts.push(`Orang: ${partial.jumlah_orang}`);
     answers.forEach((a, i) => {
       if (a) parts.push(`${questions[i]}: ${a}`);
     });
@@ -188,9 +192,13 @@ function ClarificationBubble({
   onAnswer,
 }: {
   result: ClarificationResult;
-  onAnswer: (questions: string[], answers: string[], partial: ClarificationResult["partial"]) => void;
+  onAnswer: (questions: string[], answers: string[], partial?: ClarificationResult["partial"]) => void;
 }) {
   const [answers, setAnswers] = useState<string[]>(result.questions.map(() => ""));
+
+  function submit() {
+    onAnswer(result.questions, answers, result.partial);
+  }
 
   return (
     <div className="ml-9 flex flex-col gap-3">
@@ -211,6 +219,9 @@ function ClarificationBubble({
                 next[i] = e.target.value;
                 setAnswers(next);
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") { e.preventDefault(); submit(); }
+              }}
               placeholder="Jawab di sini..."
               className="rounded-xl border border-[#E2E8F0] px-3 py-2 font-display text-[14px] text-[#1F2A37] placeholder:text-[#9AA3AD] focus:outline-none focus:ring-2 focus:ring-[#1BA1AA]/50"
             />
@@ -218,7 +229,7 @@ function ClarificationBubble({
         ))}
         <button
           type="button"
-          onClick={() => onAnswer(result.questions, answers, result.partial)}
+          onClick={submit}
           className="mt-1 w-full rounded-full bg-[#1BA1AA] py-3 font-display text-[13.5px] font-semibold text-white hover:bg-[#168D95] transition-colors"
           style={{ boxShadow: "0px 14px 30px -10px rgba(27,161,170,0.55)" }}>
           Lanjutkan Generate
