@@ -34,7 +34,7 @@ export default function ChatComposer({
       <div className="bg-[#FAF7F1] px-4 pb-5">
         <div
           className="mx-auto flex h-15.5 max-w-329 items-center gap-2 rounded-full bg-white/90 p-2 ring-1 ring-inset ring-black/5"
-          style={{ boxShadow: "0px 30px 60px 0px rgba(20,30,40,0.35)" }}>
+          style={{ boxShadow: "0px 6px 20px 0px rgba(20,30,40,0.10)" }}>
           <input
             ref={inputRef}
             type="text"
@@ -50,7 +50,7 @@ export default function ChatComposer({
             onClick={handleSend}
             disabled={disabled || !value.trim()}
             className="h-11 w-11 shrink-0 disabled:opacity-40"
-            style={{ boxShadow: "0px 12px 14px rgba(27,161,170,0.70)", filter: "none" }}>
+            style={{ boxShadow: "0px 2px 6px rgba(27,161,170,0.25)", filter: "none" }}>
             <SendIcon className="h-4 w-4" />
           </TealButton>
         </div>

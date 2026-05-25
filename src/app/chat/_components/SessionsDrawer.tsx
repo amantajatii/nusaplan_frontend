@@ -5,9 +5,9 @@ import { createPortal } from "react-dom";
 import { XIcon, TrashIcon } from "../../components/icons";
 import { listSessions, deleteSession, type ChatSessionMeta } from "@/app/_actions/sessions";
 
-type Props = { open: boolean; onClose: () => void };
+type Props = { open: boolean; onClose: () => void; onSelect?: (id: string) => void };
 
-export default function SessionsDrawer({ open, onClose }: Props) {
+export default function SessionsDrawer({ open, onClose, onSelect }: Props) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
   const [sessions, setSessions] = useState<ChatSessionMeta[]>([]);
@@ -95,8 +95,9 @@ export default function SessionsDrawer({ open, onClose }: Props) {
           {!loading && sessions.map((s) => (
             <div
               key={s.id}
-              className="mb-2 flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-inset ring-black/[0.05]"
-              style={{ boxShadow: "0px 4px 16px -8px rgba(20,30,40,0.2)" }}>
+              className="mb-2 flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-inset ring-black/[0.05] transition-colors hover:bg-[#F5F9F9] active:bg-[#EBF5F5]"
+              style={{ boxShadow: "0px 4px 16px -8px rgba(20,30,40,0.2)", cursor: "pointer" }}
+              onClick={() => { onSelect?.(s.id); onClose(); }}>
               <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                 <p className="truncate font-display text-[14px] font-semibold text-[#1F2A37]">{s.title}</p>
                 <p className="font-display text-[11.5px] text-[#9AA3AD]">{formatDate(s.last_message_at)}</p>

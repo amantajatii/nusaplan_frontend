@@ -15,7 +15,7 @@ export default function ItineraryCard({ itinerary }: { itinerary: Itinerary }) {
   return (
     <div
       className="w-full overflow-hidden rounded-[28px] bg-white ring-1 ring-inset ring-black/5"
-      style={{ boxShadow: "0px 30px 60px -28px rgba(20,30,40,0.35)" }}>
+      style={{ boxShadow: "0px 8px 24px -12px rgba(20,30,40,0.15)" }}>
       {/* Card header */}
       <div className="px-5 pb-0 pt-5">
         <div className="flex items-center gap-2">

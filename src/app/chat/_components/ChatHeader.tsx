@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import { SparkleIcon, ChevronLeftIcon, HistoryIcon, BookmarkIcon } from "../../components/icons";
 import SessionsDrawer from "./SessionsDrawer";
 
-export default function ChatHeader() {
+export default function ChatHeader({ onSessionSelect }: { onSessionSelect?: (id: string) => void }) {
   const router = useRouter();
   const [historyOpen, setHistoryOpen] = useState(false);
 
   return (
     <>
       <header className="pointer-events-none fixed left-0 right-0 top-3 z-50 flex justify-center px-4">
-        <div className="pointer-events-auto flex h-15.75 w-full max-w-2xl items-center gap-2 rounded-full bg-white/75 px-3 shadow-[0px_14px_40px_0px_rgba(20,30,40,0.25)] ring-1 ring-inset ring-black/5">
+        <div className="pointer-events-auto flex h-15.75 w-full max-w-2xl items-center gap-2 rounded-full bg-white/75 px-3 shadow-[0px_4px_12px_0px_rgba(20,30,40,0.08)] ring-1 ring-inset ring-black/5">
           {/* Back */}
           <button
             type="button"
@@ -63,7 +63,7 @@ export default function ChatHeader() {
         </div>
       </header>
 
-      <SessionsDrawer open={historyOpen} onClose={() => setHistoryOpen(false)} />
+      <SessionsDrawer open={historyOpen} onClose={() => setHistoryOpen(false)} onSelect={onSessionSelect} />
     </>
   );
 }

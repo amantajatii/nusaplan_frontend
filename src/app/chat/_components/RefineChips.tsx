@@ -21,14 +21,14 @@ export default function RefineChips({ onSelect }: { onSelect: (chip: string) => 
         </p>
       </div>
 
-      <div className="scrollbar-hide flex gap-2 overflow-x-auto pb-1">
+      <div className="scrollbar-hide -mx-1 flex gap-2 overflow-x-auto px-1 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {chips.map((chip) => (
           <button
             key={chip}
             type="button"
             onClick={() => onSelect(chip)}
             className="inline-flex h-[37.5px] shrink-0 items-center whitespace-nowrap rounded-full bg-white/80 px-4 font-display text-[13px] font-medium text-[#1F2A37] ring-1 ring-inset ring-[rgba(27,161,170,0.20)] transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 focus-visible:ring-offset-2"
-            style={{ boxShadow: "0px 6px 18px 0px rgba(27,161,170,0.35)" }}>
+            style={{ boxShadow: "0px 2px 8px 0px rgba(27,161,170,0.18)" }}>
             {chip}
           </button>
         ))}

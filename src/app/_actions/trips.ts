@@ -4,11 +4,11 @@ import { serverFetch } from '@/lib/api-server'
 import { Itinerary } from '@/lib/types'
 import { redirect } from 'next/navigation'
 
-export async function saveTrip(itinerary: Itinerary): Promise<{ trip_id: string }> {
+export async function saveTrip(itinerary: Itinerary, sessionId?: string | null): Promise<{ trip_id: string }> {
   return serverFetch<{ trip_id: string }>('/api/planner/save', {
     method: 'POST',
     auth: true,
-    body: JSON.stringify(itinerary),
+    body: JSON.stringify({ ...itinerary, session_id: sessionId ?? null }),
   })
 }
 

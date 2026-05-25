@@ -207,7 +207,7 @@ export default function HeroSection() {
             </span>
             <div className="h-px flex-1 bg-white/15" />
           </div>
-          <div className="flex w-full flex-wrap justify-start gap-2.5 overflow-hidden">
+          <div className="-m-2 flex w-full flex-wrap justify-start gap-2.5 p-2">
             {MOODS.map((mood) =>
               selectedMood === mood ? (
                 <TealButton

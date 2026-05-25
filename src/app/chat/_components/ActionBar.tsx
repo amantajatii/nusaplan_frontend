@@ -11,9 +11,11 @@ import { SaveIcon, ShareIcon, RefreshIcon } from "../../components/icons";
 export default function ActionBar({
   itinerary,
   onRefine,
+  sessionIdRef,
 }: {
   itinerary: Itinerary;
   onRefine: (text: string) => void;
+  sessionIdRef?: React.RefObject<string | null>;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -21,19 +23,19 @@ export default function ActionBar({
   function handleSave() {
     startTransition(async () => {
       try {
-        await saveTrip(itinerary);
-        router.push("/dashboard");
-        router.refresh();
+        await saveTrip(itinerary, sessionIdRef?.current);
       } catch {
         alert("Gagal menyimpan trip. Coba login dulu.");
+        return;
       }
+      router.push("/dashboard");
     });
   }
 
   return (
     <div
       className="flex items-center gap-2 rounded-full bg-white/90 p-1.75 ring-1 ring-inset ring-black/5"
-      style={{ boxShadow: "0px 24px 50px 0px rgba(20,30,40,0.35)" }}>
+      style={{ boxShadow: "0px 6px 20px 0px rgba(20,30,40,0.10)" }}>
       <TealButton
         onClick={handleSave}
         disabled={isPending}

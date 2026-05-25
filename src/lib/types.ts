@@ -80,6 +80,7 @@ export interface Trip {
   city: string
   duration_days: number
   budget_estimate: number
+  session_id: string | null
   status: string
   created_at: string
   updated_at: string

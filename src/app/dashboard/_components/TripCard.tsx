@@ -42,7 +42,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
 
   return (
     <div
-      className="flex w-[300px] shrink-0 flex-col overflow-hidden rounded-[26px] bg-white"
+      className="flex w-[300px] shrink-0 flex-col rounded-[26px] bg-white"
       style={{ boxShadow: "0px 24px 50px -22px rgba(20,30,40,0.4)" }}>
       {/* Hero */}
       <div
@@ -77,7 +77,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
           />
         </div>
         <Link
-          href="/chat"
+          href={trip.session_id ? `/chat?session=${trip.session_id}` : "/chat"}
           className="flex h-10 w-full items-center justify-center gap-1.5 rounded-full font-display text-[13px] font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70"
           style={{
             background: isDone ? "#1F2A37" : color,

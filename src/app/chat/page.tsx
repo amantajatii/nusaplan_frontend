@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { ClarificationResult, Itinerary } from "@/lib/types";
 import { generateItinerary } from "@/app/_actions/planner";
-import { createSession, updateSession } from "@/app/_actions/sessions";
+import { createSession, updateSession, getSession } from "@/app/_actions/sessions";
 import ChatHeader from "./_components/ChatHeader";
 import MessageBubble from "./_components/MessageBubble";
 import ItineraryCard from "./_components/ItineraryCard";
@@ -49,13 +49,28 @@ function ChatContent() {
 
   useEffect(() => {
     if (autoSentRef.current) return;
+    const sessionId = searchParams.get("session");
     const q = searchParams.get("q");
-    if (q?.trim()) {
+    if (sessionId) {
+      autoSentRef.current = true;
+      loadSession(sessionId);
+    } else if (q?.trim()) {
       autoSentRef.current = true;
       handleSend(q.trim());
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function loadSession(id: string) {
+    try {
+      const session = await getSession(id);
+      if (!session?.messages) return;
+      setMessages(session.messages as Msg[]);
+      sessionIdRef.current = session.id;
+    } catch {
+      // best-effort
+    }
+  }
 
   async function persistSession(msgs: Msg[], firstUserText: string) {
     try {
@@ -125,7 +140,7 @@ function ChatContent() {
     handleSend(parts.join(". "));
   }
   return (
-    <div className="relative min-h-screen bg-[#FAF7F1]">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#FAF7F1]">
       <div
         className="pointer-events-none absolute -left-24 -top-32 h-105 w-105 rounded-full opacity-40 blur-3xl"
         style={{ background: "radial-gradient(circle at 50% 50%, rgba(27,161,170,0.35) 0%, rgba(14,81,85,0.175) 35%, transparent 70%)" }}
@@ -135,7 +150,7 @@ function ChatContent() {
         style={{ background: "radial-gradient(circle at 50% 50%, rgba(253,191,58,0.4) 0%, rgba(190,143,44,0.3) 17.5%, rgba(127,96,29,0.2) 35%, transparent 70%)" }}
       />
 
-      <ChatHeader />
+      <ChatHeader onSessionSelect={loadSession} />
 
       <main className="mx-auto max-w-338.5 px-6 pb-45 pt-24">
         <div className="flex flex-col gap-4">
@@ -151,7 +166,7 @@ function ChatContent() {
                 <div key={i} className="flex flex-col gap-3 ml-9">
                   <ItineraryCard itinerary={msg.itinerary} />
                   <RefineChips onSelect={handleSend} />
-                  <ActionBar itinerary={msg.itinerary} onRefine={handleSend} />
+                  <ActionBar itinerary={msg.itinerary} onRefine={handleSend} sessionIdRef={sessionIdRef} />
                 </div>
               );
             }
@@ -207,7 +222,7 @@ function ClarificationBubble({
       </MessageBubble>
       <div
         className="rounded-3xl bg-white p-4 flex flex-col gap-3 ring-1 ring-inset ring-black/5"
-        style={{ boxShadow: "0px 10px 30px 0px rgba(20,30,40,0.15)" }}>
+        style={{ boxShadow: "0px 4px 12px rgba(20,30,40,0.08)" }}>
         {result.questions.map((q, i) => (
           <div key={i} className="flex flex-col gap-1.5">
             <p className="font-display text-[13px] font-semibold text-[#1F2A37]">{q}</p>
@@ -231,7 +246,7 @@ function ClarificationBubble({
           type="button"
           onClick={submit}
           className="mt-1 w-full rounded-full bg-[#1BA1AA] py-3 font-display text-[13.5px] font-semibold text-white hover:bg-[#168D95] transition-colors"
-          style={{ boxShadow: "0px 14px 30px -10px rgba(27,161,170,0.55)" }}>
+          style={{ boxShadow: "0px 2px 6px rgba(27,161,170,0.25)" }}>
           Lanjutkan Generate
         </button>
       </div>

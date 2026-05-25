@@ -20,7 +20,7 @@ export default function TripCardsRow({ trips }: { trips: Trip[] }) {
   }
 
   return (
-    <div className="scrollbar-hide -mx-5 flex gap-8 overflow-x-auto px-5 pb-2">
+    <div className="-my-8 -mx-5 flex gap-8 overflow-x-auto px-5 py-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {trips.map((trip) => (
         <TripCard key={trip.id} trip={trip} />
       ))}
