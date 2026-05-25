@@ -1,7 +1,15 @@
 import Image from "next/image";
 import type { UserProfile } from "@/lib/types";
 
-const DAY_NAMES = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+const DAY_NAMES = [
+  "Minggu",
+  "Senin",
+  "Selasa",
+  "Rabu",
+  "Kamis",
+  "Jumat",
+  "Sabtu",
+];
 
 export default function Greeting({ profile }: { profile: UserProfile }) {
   const day = DAY_NAMES[new Date().getDay()];
@@ -26,8 +34,10 @@ export default function Greeting({ profile }: { profile: UserProfile }) {
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-0.5">
-        <p className="font-display text-[12.5px] font-medium text-[#5B6470]">{day} yang cerah ·</p>
+      <div className="flex flex-col gap-0.5 mt-2">
+        <p className="font-display text-[12.5px] font-medium text-[#5B6470]">
+          {day} yang cerah ·
+        </p>
         <h1 className="font-sans text-[26px] font-medium leading-tight tracking-[-0.4px] text-[#1F2A37]">
           Hai, {name} <span style={{ color: "#FDBF3A" }}>👋</span>
         </h1>

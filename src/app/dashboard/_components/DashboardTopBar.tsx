@@ -20,16 +20,16 @@ export default function DashboardTopBar() {
             boxShadow: "0px 8px 24px 0px rgba(20,30,40,0.18)",
           }}>
           {/* Brand */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 rounded-full">
             <div
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden"
               style={{ background: "linear-gradient(135deg, #1BA1AA 0%, #2CC9C8 100%)" }}>
-              <Image src="/logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
+              <Image src="/nusaplan_logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
             </div>
             <span className="font-sans text-[17px] font-semibold leading-6 tracking-[-0.4px] text-[#1F2A37]">
               Nusaplan
             </span>
-          </div>
+          </Link>
 
           <div className="flex-1" />
 

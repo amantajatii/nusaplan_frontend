@@ -49,10 +49,18 @@ export default function SearchFilterBar() {
     const val = e.target.value;
     setSearch(val);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => navigate({ search: normalizeSearch(val) }), 400);
+    debounceRef.current = setTimeout(
+      () => navigate({ search: normalizeSearch(val) }),
+      400,
+    );
   }
 
-  useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current); }, []);
+  useEffect(
+    () => () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    },
+    [],
+  );
 
   return (
     <div className="fixed left-0 right-0 top-16.5 z-40 bg-[rgba(250,247,241,0.85)] px-6 pb-3 pt-2 backdrop-blur-sm">
@@ -80,10 +88,17 @@ export default function SearchFilterBar() {
         </button>
       </div>
 
-      <FilterDrawer open={filterOpen} onClose={() => setFilterOpen(false)} onApply={(f) => { setFilterOpen(false); navigate(f); }} />
+      <FilterDrawer
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        onApply={(f) => {
+          setFilterOpen(false);
+          navigate(f);
+        }}
+      />
 
       {/* Category pills */}
-      <div className="scrollbar-hide mt-3 flex gap-2 overflow-x-auto pb-0.5">
+      <div className="mt-3 -mb-5 flex gap-2 overflow-x-auto pb-6 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {CATEGORIES.map(({ label, value }) => (
           <button
             key={value}
@@ -96,8 +111,8 @@ export default function SearchFilterBar() {
             }`}
             style={
               active === value
-                ? { filter: "drop-shadow(0px 10px 11px rgba(27,161,170,0.55))" }
-                : { boxShadow: "0px 4px 12px 0px rgba(20,30,40,0.18)" }
+                ? { filter: "drop-shadow(0px 8px 11px rgba(27,161,170,0.4))" }
+                : { boxShadow: "0px 4px 8px 0px rgba(20,30,40,0.18)" }
             }>
             {label}
           </button>

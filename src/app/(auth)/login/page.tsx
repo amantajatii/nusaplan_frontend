@@ -144,7 +144,7 @@ export default function LoginPage() {
             style={{ boxShadow: '0px 8px 20px -6px rgba(27,161,170,0.55)' }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="" className="h-full w-full object-cover" aria-hidden="true" />
+            <img src="/nusaplan_logo.png" alt="" className="h-full w-full object-cover" aria-hidden="true" />
           </div>
           <span className="font-sans text-[22px] font-medium tracking-[-0.3px] text-[#1F2A37]">
             NusaPlan

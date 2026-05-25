@@ -38,12 +38,16 @@ export default function TripCard({ trip }: { trip: Trip }) {
   const color = moodColor(trip.mood);
   const img = cityImage(trip.city);
   const created = new Date(trip.created_at);
-  const dateStr = created.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  const dateStr = created.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
   return (
     <div
       className="flex w-[300px] shrink-0 flex-col rounded-[26px] bg-white"
-      style={{ boxShadow: "0px 24px 50px -22px rgba(20,30,40,0.4)" }}>
+      style={{ boxShadow: "0px 24px 24px -22px rgba(20,30,40,0.4)" }}>
       {/* Hero */}
       <div
         className="relative h-[176px] w-full overflow-hidden"
@@ -55,8 +59,12 @@ export default function TripCard({ trip }: { trip: Trip }) {
           </span>
         )}
         <div className="absolute bottom-3 left-3 flex flex-col gap-0.5">
-          <p className="font-sans text-[19px] font-medium leading-tight tracking-[-0.2px] text-white">{trip.title}</p>
-          <p className="font-display text-[11.5px] font-medium text-white/85">{trip.city} · {dateStr}</p>
+          <p className="font-sans text-[19px] font-medium leading-tight tracking-[-0.2px] text-white">
+            {trip.title}
+          </p>
+          <p className="font-display text-[11.5px] font-medium text-white/85">
+            {trip.city} · {dateStr}
+          </p>
         </div>
       </div>
 
@@ -64,7 +72,9 @@ export default function TripCard({ trip }: { trip: Trip }) {
       <div className="flex flex-col gap-3 p-5">
         <div className="flex items-center justify-between">
           <span className="font-display text-[12.5px] font-semibold text-[#1F2A37]">
-            {isDone ? "Kenangan tersimpan" : `${trip.duration_days} hari · Rp ${(trip.budget_estimate / 1_000_000).toFixed(1)}jt`}
+            {isDone
+              ? "Kenangan tersimpan"
+              : `${trip.duration_days} hari · Rp ${(trip.budget_estimate / 1_000_000).toFixed(1)}jt`}
           </span>
           <span className="font-display text-[11.5px] font-semibold text-[#5B6470]">
             {isDone ? "100%" : "—"}
@@ -81,7 +91,9 @@ export default function TripCard({ trip }: { trip: Trip }) {
           className="flex h-10 w-full items-center justify-center gap-1.5 rounded-full font-display text-[13px] font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70"
           style={{
             background: isDone ? "#1F2A37" : color,
-            boxShadow: isDone ? "0px 14px 14px rgba(31,42,55,0.5)" : `0px 14px 14px rgba(27,161,170,0.55)`,
+            boxShadow: isDone
+              ? "0px 14px 14px rgba(31,42,55,0.5)"
+              : `0px 14px 14px rgba(27,161,170,0.55)`,
           }}>
           {isDone ? "Lihat kenangan" : "Lanjutkan trip"}
           <ArrowRightIcon className="h-3.5 w-3.5" />

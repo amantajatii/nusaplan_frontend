@@ -54,7 +54,7 @@ export default async function DashboardPage() {
             title="Perjalananmu"
             sub="Kenangan dan rencana yang sedang berjalan"
             action="Lihat semua"
-            href="/dashboard"
+            href="/dashboard/trips"
           />
           <TripCardsRow trips={trips} />
           <SectionHeader

@@ -27,14 +27,14 @@ export default function TopBar() {
           </button>
 
           {/* Brand */}
-          <div className="ml-2.75 flex items-center gap-2">
+          <Link href="/" className="ml-2.75 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1BA1AA]/70 rounded-full">
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#1BA1AA] overflow-hidden">
-              <Image src="/logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
+              <Image src="/nusaplan_logo.png" alt="NusaPlan" width={28} height={28} className="h-full w-full object-cover" />
             </div>
             <span className="font-sans text-[16px] font-semibold leading-6 tracking-[-0.1px] text-[#1F2A37]">
               Nusaplan
             </span>
-          </div>
+          </Link>
 
           <div className="flex-1" />
 
