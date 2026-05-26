@@ -20,6 +20,11 @@ const urbanist = localFont({
 export const metadata: Metadata = {
   title: "NusaPlan — AI Travel Planner Indonesia",
   description: "Ceritakan perjalananmu. AI menyusun itinerary terbaik untuk liburanmu di Indonesia.",
+  icons: {
+    icon: "/nusaplan_logo.png",
+    shortcut: "/nusaplan_logo.png",
+    apple: "/nusaplan_logo.png",
+  },
 };
 
 export default function RootLayout({
